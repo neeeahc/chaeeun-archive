@@ -7,12 +7,12 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
   /* 디자인 시스템: achievable.info 추출 — 24컬럼 · 16px 거터 · 350 굵기 · 음수 자간 · 흑백 + 웜그레이 · 직각 · 모서리 마크 */
-  :root { color-scheme: light; --ground: #fcfcfc; --ink: #000000; --muted: #646464; --line: #d8d7d4; --soft: #efeeec; --thumb: #d9d4cc; --btn: #202020; --accent: #00ff00; --mar: 16px; }
+  :root { color-scheme: light; --ground: #fcfcfc; --ink: #000000; --muted: #646464; --line: #d8d7d4; --soft: #efeeec; --thumb: #d9d9d9; --btn: #202020; --accent: #d9d9d9; --mar: 16px; }
   @media (min-width: 900px) { :root { --mar: 24px; } }
   @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) { color-scheme: dark; --ground: #101010; --ink: #fcfcfc; --muted: #9c9c9c; --line: #2c2c2c; --soft: #1a1a1a; --thumb: #c9c4bc; --btn: #fcfcfc; }
+    :root:not([data-theme="light"]) { color-scheme: dark; --ground: #101010; --ink: #fcfcfc; --muted: #9c9c9c; --line: #2c2c2c; --soft: #1a1a1a; --thumb: #c9c9c9; --btn: #fcfcfc; }
   }
-  :root[data-theme="dark"] { color-scheme: dark; --ground: #101010; --ink: #fcfcfc; --muted: #9c9c9c; --line: #2c2c2c; --soft: #1a1a1a; --thumb: #c9c4bc; --btn: #fcfcfc; }
+  :root[data-theme="dark"] { color-scheme: dark; --ground: #101010; --ink: #fcfcfc; --muted: #9c9c9c; --line: #2c2c2c; --soft: #1a1a1a; --thumb: #c9c9c9; --btn: #fcfcfc; }
   :root[data-theme="light"] { color-scheme: light; }
   * { box-sizing: border-box; }
   body { margin: 0; padding: 0 var(--mar) 96px; background: var(--ground); color: var(--ink); font: 400 16px/1.55 "Pretendard Variable", Pretendard, -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; font-style: normal; letter-spacing: -0.02em; word-break: keep-all; -webkit-font-smoothing: antialiased; position: relative; }
@@ -120,7 +120,7 @@
   body.embed-page .embed iframe { height: calc(100vh - var(--gh, 56px)); height: calc(100dvh - var(--gh, 56px)); background: var(--ground); }
   body.embed-page .embed figcaption { display: none; }
 
-  body.embed-page[data-week="9"] { --ground: #f6f8fa; --ink: #1e272d; --muted: #1e272d66; }
+  body.embed-page[data-week="9"] { --ground: #f6f8fa; --ink: #1e1e1e; --muted: #1e1e1e66; }
   body.embed-page[data-week="10"] { --ground: #ffffff; }
 
   /* 화면 바꾸기 버튼 삭제 */
@@ -143,10 +143,10 @@
   /* 서브 공통: 설명 문구 진하게 · 마우스 포인터 원 파랑(인덱스와 동일) */
   .car-cap span { color: var(--ink) !important; }
   /* 파랑 포인터 원: 아래 글자가 항상 보이도록 블렌드 사용 (밝은 페이지 multiply · 어두운 5주·11주 screen) */
-  .fx-cur { background: #2747b5 !important; mix-blend-mode: multiply !important; }
+  .fx-cur { background: #e1251b !important; mix-blend-mode: multiply !important; }
   .fx-cur span { color: #ffffff; }
   body[data-week="5"] .fx-cur, body[data-week="11"] .fx-cur { mix-blend-mode: screen !important; }
-  body[data-week="7"] .car-cap span { color: #e1251b !important; }
+  body[data-week="7"] .car-cap span { color: #0f0f15 !important; }
 
   /* 로고(Sample Archive): GNB 우측 메뉴와 같은 서체 — 11px · 600 · 대문자 · 자간 .06em (모든 페이지 통일) */
   .brand, .gnb .brand, body[data-week] .gnb .brand { font-size: 11px !important; font-weight: 600 !important; text-transform: uppercase !important; letter-spacing: .06em !important; line-height: 1 !important; }
