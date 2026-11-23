@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Born This Way — My Gaze Archive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@800&family=Inter+Tight:wght@500;600;800&family=Lobster&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="page-archive">
+
+<header class="bar">
+  <a class="bar-logo ink" href="index.html">My Gaze Archive</a>
+  <nav class="bar-nav" aria-label="페이지">
+    <a href="midnight-sun.html" class="f-sun">Midnight Sun</a>
+    <a href="born-this-way.html" class="f-born is-active" aria-current="page">Born This Way</a>
+    <a href="say-so.html" class="f-say">Say So</a>
+    <a href="why.html" class="f-why">Why</a>
+  </nav>
+  <time class="bar-clock" id="clock" aria-live="off"></time>
+</header>
+
+<main class="page-main">
+  <section class="bundle" id="born-this-way" aria-labelledby="born-this-way-title">
+    <div class="bundle-head">
+      <h2 id="born-this-way-title" class="bundle-title ink"><span class="f-born">Born This Way</span> <span class="count">(05)</span></h2>
+      <p>Lady Gaga의 노래 'Born This Way'에서 영감받은 사진들 — 다양성.</p>
+    </div>
+    <div class="grid">
+      <figure class="item" data-index="0">
+        <button class="item-btn" type="button" aria-label="Leather & Smoke 크게 보기"><img src="assets/hand01_unsplash_alexandereriksson.jpg" alt="Leather & Smoke, Alexander Eriksson" loading="lazy"></button>
+        <figcaption><span class="ink">Leather & Smoke</span> <span>Alexander Eriksson · Unsplash</span></figcaption>
+      </figure>
+      <figure class="item" data-index="1">
+        <button class="item-btn" type="button" aria-label="Stiletto Nails 크게 보기"><img src="assets/hand02_unsplash_davidbanjo.jpg" alt="Stiletto Nails, David Banjo" loading="lazy"></button>
+        <figcaption><span class="ink">Stiletto Nails</span> <span>David Banjo · Unsplash</span></figcaption>
+      </figure>
+      <figure class="item" data-index="2">
+        <button class="item-btn" type="button" aria-label="Painted Nails 크게 보기"><img src="assets/hand03_unsplash_dwaynejoe.jpg" alt="Painted Nails, Dwayne Joe" loading="lazy"></button>
+        <figcaption><span class="ink">Painted Nails</span> <span>Dwayne Joe · Unsplash</span></figcaption>
+      </figure>
+      <figure class="item" data-index="3">
+        <button class="item-btn" type="button" aria-label="Flash Monochrome 크게 보기"><img src="assets/hand04_unsplash_maxovcharenko.jpg" alt="Flash Monochrome, Max Ovcharenko" loading="lazy"></button>
+        <figcaption><span class="ink">Flash Monochrome</span> <span>Max Ovcharenko · Unsplash</span></figcaption>
+      </figure>
+      <figure class="item" data-index="4">
+        <button class="item-btn" type="button" aria-label="Frame of Nails 크게 보기"><img src="assets/hand05_unsplash_osarugueigbinoba.jpg" alt="Frame of Nails, Osarugue Igbinoba" loading="lazy"></button>
+        <figcaption><span class="ink">Frame of Nails</span> <span>Osarugue Igbinoba · Unsplash</span></figcaption>
+      </figure>
+    </div>
+  </section>
+  <nav class="pager" aria-label="다른 묶음">
+    <a class="pager-prev" href="midnight-sun.html"><span>Previous</span><span class="f-sun ink">Midnight Sun</span></a>
+    <a class="pager-next" href="say-so.html"><span>Next</span><span class="f-say ink">Say So</span></a>
+  </nav>
+</main>
+
+<footer class="foot">
+  <span class="ink">© 2026 이채은</span>
+  <span class="foot-mid"><a href="midnight-sun.html">Midnight Sun</a><br><a href="born-this-way.html">Born This Way</a><br><a href="say-so.html">Say So</a></span>
+  <span class="foot-right">Photos via Unsplash · Pexels<br><a href="why.html">Why these</a></span>
+</footer>
+
+<!-- 크게 보기 -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="사진 크게 보기" hidden>
+  <button class="lb-close" type="button" id="lb-close">Close</button>
+  <figure class="lb-figure">
+    <img id="lb-img" alt="">
+    <figcaption id="lb-cap"></figcaption>
+  </figure>
+  <button class="lb-nav lb-prev" type="button" id="lb-prev" aria-label="이전 사진">Prev</button>
+  <button class="lb-nav lb-next" type="button" id="lb-next" aria-label="다음 사진">Next</button>
+</div>
+
+
+<script src="script.js"></script>
+</body>
+</html>

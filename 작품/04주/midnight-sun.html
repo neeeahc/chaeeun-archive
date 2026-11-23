@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Midnight Sun — My Gaze Archive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@800&family=Inter+Tight:wght@500;600;800&family=Lobster&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="page-archive">
+
+<header class="bar">
+  <a class="bar-logo ink" href="index.html">My Gaze Archive</a>
+  <nav class="bar-nav" aria-label="페이지">
+    <a href="midnight-sun.html" class="f-sun is-active" aria-current="page">Midnight Sun</a>
+    <a href="born-this-way.html" class="f-born">Born This Way</a>
+    <a href="say-so.html" class="f-say">Say So</a>
+    <a href="why.html" class="f-why">Why</a>
+  </nav>
+  <time class="bar-clock" id="clock" aria-live="off"></time>
+</header>
+
+<main class="page-main">
+  <section class="bundle" id="midnight-sun" aria-labelledby="midnight-sun-title">
+    <div class="bundle-head">
+      <h2 id="midnight-sun-title" class="bundle-title ink"><span class="f-sun">Midnight Sun</span> <span class="count">(05)</span></h2>
+      <p>Zara Larsson의 노래 'Midnight Sun'에서 영감받은 사진들 — 일몰의 해변.</p>
+    </div>
+    <div class="grid">
+      <figure class="item" data-index="0">
+        <button class="item-btn" type="button" aria-label="Pink Dusk 크게 보기"><img src="assets/sky01_unsplash_jordansteranka.jpg" alt="Pink Dusk, Jordan Steranka" loading="lazy"></button>
+        <figcaption><span class="ink">Pink Dusk</span> <span>Jordan Steranka · Unsplash</span></figcaption>
+      </figure>
+      <figure class="item" data-index="1">
+        <button class="item-btn" type="button" aria-label="Palm Silhouettes 크게 보기"><img src="assets/sky02_pexels_danielflores.jpg" alt="Palm Silhouettes, Daniel Flores" loading="lazy"></button>
+        <figcaption><span class="ink">Palm Silhouettes</span> <span>Daniel Flores · Pexels</span></figcaption>
+      </figure>
+      <figure class="item" data-index="2">
+        <button class="item-btn" type="button" aria-label="Her Silhouette 크게 보기"><img src="assets/sky03_pexels_maczkogabor.jpg" alt="Her Silhouette, Maczko Gabor" loading="lazy"></button>
+        <figcaption><span class="ink">Her Silhouette</span> <span>Maczko Gabor · Pexels</span></figcaption>
+      </figure>
+      <figure class="item" data-index="3">
+        <button class="item-btn" type="button" aria-label="Mirror Tide 크게 보기"><img src="assets/sky04_pexels_saifeeart.jpg" alt="Mirror Tide, Saifee Art" loading="lazy"></button>
+        <figcaption><span class="ink">Mirror Tide</span> <span>Saifee Art · Pexels</span></figcaption>
+      </figure>
+      <figure class="item" data-index="4">
+        <button class="item-btn" type="button" aria-label="Wading at Sunset 크게 보기"><img src="assets/sky05_pexels_zaktech90.jpg" alt="Wading at Sunset, Zaktech90" loading="lazy"></button>
+        <figcaption><span class="ink">Wading at Sunset</span> <span>Zaktech90 · Pexels</span></figcaption>
+      </figure>
+    </div>
+  </section>
+  <nav class="pager" aria-label="다른 묶음">
+    <a class="pager-prev" href="index.html"><span>Previous</span><span class=" ink">Home</span></a>
+    <a class="pager-next" href="born-this-way.html"><span>Next</span><span class="f-born ink">Born This Way</span></a>
+  </nav>
+</main>
+
+<footer class="foot">
+  <span class="ink">© 2026 이채은</span>
+  <span class="foot-mid"><a href="midnight-sun.html">Midnight Sun</a><br><a href="born-this-way.html">Born This Way</a><br><a href="say-so.html">Say So</a></span>
+  <span class="foot-right">Photos via Unsplash · Pexels<br><a href="why.html">Why these</a></span>
+</footer>
+
+<!-- 크게 보기 -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="사진 크게 보기" hidden>
+  <button class="lb-close" type="button" id="lb-close">Close</button>
+  <figure class="lb-figure">
+    <img id="lb-img" alt="">
+    <figcaption id="lb-cap"></figcaption>
+  </figure>
+  <button class="lb-nav lb-prev" type="button" id="lb-prev" aria-label="이전 사진">Prev</button>
+  <button class="lb-nav lb-next" type="button" id="lb-next" aria-label="다음 사진">Next</button>
+</div>
+
+
+<script src="script.js"></script>
+</body>
+</html>
