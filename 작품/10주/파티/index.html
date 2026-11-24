@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>10주 레코드 파티 — 이채은</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;600;800&family=Gothic+A1:wght@400;600&display=swap" rel="stylesheet">
+<!-- 12주 갤러리용 10주 페이지: 80년대 레코드 파티. 천장에서 늘어진 줄에 레코드판이 매달려 흔들리고,
+     색 라벨이 붙은 다섯 장이 내 플레이리스트다. 판을 누르면 곡 이야기와 듣기 링크가 열린다. 앨범 표지는 쓰지 않는다 -->
+<style>
+:root{--bg:#000;--ink:#fff;--mute:rgba(255,255,255,.6);--red:#e1251b}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:"Inter Tight","Gothic A1",sans-serif;overflow:hidden}
+.room{position:fixed;inset:0;overflow:hidden;perspective:1200px}
+/* 파티 조명: 색 빛 웅덩이가 천천히 떠다닌다 */
+.light{position:absolute;width:46vmax;height:46vmax;border-radius:50%;filter:blur(70px);opacity:.28;mix-blend-mode:screen;animation:drift 18s ease-in-out infinite alternate}
+.l1{background:#e1251b;left:-10vmax;top:10vh}.l2{background:#3a5bff;right:-12vmax;top:-8vh;animation-duration:22s}.l3{background:#ffb800;left:30vw;bottom:-20vmax;animation-duration:26s}.l4{background:#c13cff;right:10vw;bottom:-10vmax;animation-duration:20s}
+@keyframes drift{to{transform:translate(8vw,-6vh) scale(1.15)}}
+/* 바닥의 반짝임 점 (미러볼 반사) */
+.sparkles{position:absolute;inset:0;pointer-events:none}
+.sp{position:absolute;width:6px;height:6px;border-radius:50%;background:#fff;opacity:0;animation:tw 3s ease-in-out infinite}
+@keyframes tw{50%{opacity:.8}}
+/* 줄과 판 */
+.strand{position:absolute;top:0;width:2px;transform-origin:top center;animation:sway 6s ease-in-out infinite alternate}
+.strand::before{content:"";position:absolute;left:0;top:0;bottom:0;width:1px;background:#555}
+@keyframes sway{from{transform:rotate(-1.6deg)}to{transform:rotate(1.6deg)}}
+.disc{position:absolute;left:50%;width:var(--s);height:var(--s);margin-left:calc(var(--s) / -2);border-radius:50%;background:#000;transform:rotateY(var(--ry));transition:transform .8s cubic-bezier(.2,.8,.2,1);animation:turn var(--t) ease-in-out infinite alternate}
+.disc svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+@keyframes bob{from{transform:translate(-4px,-6px) rotate(-6deg)}to{transform:translate(4px,6px) rotate(6deg)}}
+.disc svg{animation:spinv 18s linear infinite}@keyframes spinv{to{transform:rotate(360deg)}}
+@keyframes turn{from{transform:rotateY(var(--ry))}to{transform:rotateY(calc(var(--ry) + 50deg))}}
+.disc.song{cursor:pointer}
+.disc.song:hover,.disc.song.on{animation:none;transform:scale(1.08);z-index:6!important}
+.disc.song .no{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font:600 calc(var(--s) * .08)/1 "Inter Tight";color:#ff5040;letter-spacing:.02em;pointer-events:none}
+.disc.song:hover .no,.disc.song.on .no{animation:spinlab 2.4s linear infinite}
+@keyframes spinlab{to{transform:translate(-50%,-50%) rotate(360deg)}}
+/* 제목과 목록 */
+.head{position:fixed;left:3vw;top:3.2vh;z-index:10;pointer-events:none}
+.head h1{margin:0;font:800 clamp(28px,4.2vw,64px)/.95 "Inter Tight";letter-spacing:-.02em;text-transform:uppercase}
+.head h1 em{font-style:normal;color:var(--red)}
+.head p{margin:.6em 0 0;font:400 14px/1.4 "Gothic A1";color:var(--mute)}
+.list{position:fixed;left:3vw;bottom:4vh;z-index:10;margin:0;padding:0;list-style:none;font:600 14px/1.9 "Inter Tight";text-transform:uppercase}
+.list button{all:unset;cursor:pointer;color:var(--mute)}
+.list button:hover,.list button.on{color:#fff}.list button.on::before{content:"● ";color:var(--red)}
+.card{position:fixed;right:3vw;bottom:4vh;z-index:12;width:min(360px,86vw);padding:20px 22px;background:rgba(12,10,18,.86);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(6px);
+  opacity:0;transform:translateY(16px);transition:opacity .4s,transform .4s;pointer-events:none}
+.card.on{opacity:1;transform:none;pointer-events:auto}
+.card .k{font:600 12px/1 "Inter Tight";letter-spacing:.08em;color:var(--red)}
+.card h2{margin:.4em 0 .1em;font:800 26px/1.05 "Inter Tight"}
+.card .a{margin:0;font:400 14px/1.4 "Inter Tight";color:var(--mute)}
+.card .t{margin:.9em 0 1em;font:400 15px/1.6 "Gothic A1"}
+.card .yt{position:relative;width:100%;aspect-ratio:16/9;margin:0 0 12px;background:#000}.card .yt iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.card a{color:#fff;font:600 13px/1 "Inter Tight";text-transform:uppercase;letter-spacing:.04em}
+.card .x{position:absolute;right:14px;top:12px;all:unset;cursor:pointer;color:var(--mute);font:400 13px/1 "Inter Tight";position:absolute;right:16px;top:16px}
+@media (prefers-reduced-motion:reduce){.strand,.disc,.light,.sp{animation:none!important}}
+@media (max-width:700px){.list{font-size:12px}.card{right:4vw;left:4vw;width:auto;bottom:16vh}}
+</style>
+</head>
+<body>
+<div class="room" id="room">
+</div>
+<header class="head"><h1>Record<br><em>Party</em></h1><p>나를 알고 싶다면 이 플레이리스트를 들어라</p></header>
+<ol class="list" id="list"></ol>
+<section class="card" id="card" aria-live="polite"><button class="x" id="x" type="button">CLOSE</button><span class="k" id="ck"></span><h2 id="ct"></h2><p class="a" id="ca"></p><p class="t" id="cx"></p><div class="yt" id="yt"></div><a id="cl" href="#" target="_blank" rel="noopener">YouTube에서 열기 ↗</a></section>
+<script>
+(function(){
+var SONGS=[
+ {t:"Lucky Star",a:"Madonna",c:"#f5c518",lab:"#f0c07e",y:"https://www.youtube.com/watch?v=em-WvFGVChA",x:"드라마 Euphoria에서 처음 듣고 반해 집을 나설 때마다 트는 곡입니다. 플레이리스트가 인트로 비트부터 강렬하게 시작되도록 첫 곡에 넣었습니다."},
+ {t:"난 아직 사랑을 몰라",a:"이지연",c:"#ff4fa3",lab:"#c9d6ea",y:"https://www.youtube.com/watch?v=BMMEdEIs2k0",x:"이 곡의 무대 교차편집 영상을 보다가 이지연의 퍼포먼스에 반했습니다. 가사가 진보적인 데다 즐기며 부르는 게 느껴져서 꼭 넣고 싶었습니다."},
+ {t:"I'm Coming Out / Upside Down",a:"Diana Ross",c:"#ff8a1f",lab:"#e07a2a",y:"https://www.youtube.com/watch?v=zVyE8ejgLss",x:"단편영화 '유월'에서 주인공이 이 곡에 춤추는 장면이 인상 깊어 담았습니다. 춤추고 싶을 때 트는 리믹스라서 세 번째에 두면 분위기가 환기될 것 같았습니다."},
+ {t:"Take on Me",a:"a-ha",c:"#2fb8f0",lab:"swirl",y:"https://www.youtube.com/watch?v=MIgK3zOk0zg",x:"어릴 때 아빠가 들려주신 곡인데 만화와 현실이 공존하는 뮤직비디오도 혁신적입니다. 비트가 미래적이고 특이한 제 인생곡 중 하나라서 넣지 않을 수 없었습니다."},
+ {t:"Dancing Queen",a:"ABBA",c:"#e1251b",lab:"#ead8c6",y:"https://www.youtube.com/watch?v=YkLLcIKhJ64",x:"아주 어릴 때부터 듣던 곡으로 가사가 희망적입니다. 제 인생의 엔딩곡이었으면 하는 마음으로 마지막 곡에 두었습니다."}
+];
+function art(song){var g="";for(var r=44;r>22;r-=4)g+='<circle cx="50" cy="50" r="'+r+'" fill="none" stroke="#7a2a24" stroke-width=".6"/>';
+ return '<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="49" fill="#000" stroke="#ff6252" stroke-width="1.2"/>'+g+'<circle cx="50" cy="50" r="18" fill="#000" stroke="#ff5040" stroke-width="1.2"/>'+(song?'<circle cx="50" cy="50" r="15" fill="none" stroke="#e0584c" stroke-width=".6" stroke-dasharray="2 2"/>':'<circle cx="50" cy="50" r="2.2" fill="none" stroke="#ff7a6c" stroke-width="1"/>')+'</svg>';}
+var DECO=["#6b4bd8","#3a3fb0","#f5c518","#ff8a1f","#2fb8f0","#ff4fa3","#7a7a7a","#c9c9c9"];
+var room=document.getElementById("room"),W=innerWidth,H=innerHeight;
+var seed=7;function R(){seed=(seed*16807)%2147483647;return seed/2147483647;}
+/* 사진처럼 크기가 다른 판 8장이 서로 겹쳐 한 덩어리로 모여 있다. 판마다 천천히 흔들리고 돈다. 01~05가 곡 */
+var M=Math.min(W*.5,H*.76),ox=W*.6,oy=H*.52,songEls=[];
+var LAY=[{x:-.06,y:-.38,r:.17,s:0},{x:.2,y:-.27,r:.18,s:-1},{x:-.08,y:-.14,r:.25,s:1},{x:.22,y:.05,r:.28,s:-1},{x:-.24,y:.04,r:.18,s:2},{x:-.12,y:.27,r:.25,s:3},{x:.17,y:.38,r:.19,s:4},{x:-.32,y:-.28,r:.1,s:-1}];
+LAY.forEach(function(L,k){var sz=L.r*2*M,d=document.createElement("div"),isSong=L.s>=0;d.className="disc"+(isSong?" song":"");
+ d.style.cssText+="position:absolute;left:"+(ox+L.x*M-sz/2)+"px;top:"+(oy+L.y*M-sz/2)+"px;margin:0;z-index:"+(isSong?3:1);
+ d.style.setProperty("--s",sz+"px");d.style.setProperty("--ry","0deg");d.style.animation="bob "+(4+R()*3).toFixed(1)+"s ease-in-out "+(-R()*4).toFixed(1)+"s infinite alternate";
+ if(isSong){var j=L.s;d.innerHTML=art(true)+'<span class="no">'+String(j+1).padStart(2,"0")+'</span>';d.setAttribute("role","button");d.setAttribute("tabindex","0");d.setAttribute("aria-label",SONGS[j].t);
+  (function(j){d.addEventListener("click",function(){open(j)});d.addEventListener("keydown",function(e){if(e.key==="Enter")open(j)});})(j);songEls[j]=d;}
+ else d.innerHTML=art(false);
+ room.appendChild(d);});
+var list=document.getElementById("list"),btns=SONGS.map(function(s,j){var li=document.createElement("li"),b=document.createElement("button");b.type="button";b.textContent=String(j+1).padStart(2,"0")+" "+s.t;b.addEventListener("click",function(){open(j)});li.appendChild(b);list.appendChild(li);return b;});
+var card=document.getElementById("card"),cur=-1;
+function open(j){cur=j;var s=SONGS[j];document.getElementById("ck").textContent="TRACK "+String(j+1).padStart(2,"0")+" / 05";document.getElementById("ct").textContent=s.t;document.getElementById("ca").textContent=s.a;document.getElementById("cx").textContent=s.x;document.getElementById("cl").href=s.y;var id=s.y.split("v=")[1];document.getElementById("yt").innerHTML='<iframe src="https://www.youtube.com/embed/'+id+'?autoplay=1&rel=0&playsinline=1" title="'+s.t.replace(/"/g,"")+'" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>';
+ card.classList.add("on");btns.forEach(function(b,k){b.classList.toggle("on",k===j)});songEls.forEach(function(d,k){if(d)d.classList.toggle("on",k===j)});}
+document.getElementById("x").addEventListener("click",function(){document.getElementById("yt").innerHTML="";card.classList.remove("on");btns.forEach(function(b){b.classList.remove("on")});songEls.forEach(function(d){if(d)d.classList.remove("on")});});
+addEventListener("keydown",function(e){if(cur<0)return;if(e.key==="ArrowRight")open((cur+1)%5);if(e.key==="ArrowLeft")open((cur+4)%5);});
+})();
+</script>
+</body>
+</html>

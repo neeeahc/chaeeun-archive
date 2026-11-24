@@ -259,6 +259,15 @@
 </style>
 </head>
 <body data-week="6">
+<!-- 12주: 배경 비행 모션 — 출발 핀에서 비행기가 고리를 한 번 그리며 도착 핀까지 날아가고, 지나간 길이 빨간 점선으로 남는다 -->
+<div class="fly-bg" aria-hidden="true"><svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+  <defs><mask id="flyMask"><path d="M150 600 C 430 690, 770 650, 870 540 C 970 450, 910 230, 770 210 C 610 190, 570 430, 710 530 C 870 640, 1190 430, 1460 210" fill="none" stroke="#fff" stroke-width="14" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"><animate attributeName="stroke-dashoffset" values="1;0;0" keyTimes="0;.8;1" dur="7s" repeatCount="indefinite"/></path></mask></defs>
+  <path id="flyPath" d="M150 600 C 430 690, 770 650, 870 540 C 970 450, 910 230, 770 210 C 610 190, 570 430, 710 530 C 870 640, 1190 430, 1460 210" fill="none" stroke="#f0a8a3" stroke-width="5" stroke-linecap="round" stroke-dasharray="16 16" mask="url(#flyMask)"/>
+  <g transform="translate(150 600)"><path d="M0 0 C-6 -16 -20 -24 -20 -40 A20 20 0 1 1 20 -40 C20 -24 6 -16 0 0 Z" fill="#f0a8a3"/><circle cx="0" cy="-40" r="7" fill="#fff"/></g>
+  <g transform="translate(1460 210) scale(1.35)"><path d="M0 0 C-6 -16 -20 -24 -20 -40 A20 20 0 1 1 20 -40 C20 -24 6 -16 0 0 Z" fill="#f0a8a3"/><circle cx="0" cy="-40" r="7" fill="#fff"/></g>
+  <g><path d="M-26 0 L26 0 M8 0 L-8 -20 M8 0 L-8 20 M-20 0 L-28 -9 M-20 0 L-28 9" fill="none" stroke="#f0a8a3" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><animateMotion dur="7s" repeatCount="indefinite" rotate="auto" keyPoints="0;1;1" keyTimes="0;.8;1" calcMode="linear"><mpath href="#flyPath"/></animateMotion></g>
+</svg></div>
+<style>.fly-bg{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:1}.fly-bg svg{width:100%;height:100%}body[data-week="6"] main{position:relative;z-index:1}@media (prefers-reduced-motion:reduce){.fly-bg animate,.fly-bg animateMotion{display:none}}</style>
 <div class="gnb" role="banner"><div class="gnb-in"><a class="brand" id="brand" href="../index.html">Name Archive</a><nav class="weeks" aria-label="주차"><a href="week-04.html">04 Gaze</a><a href="week-05.html">05 People</a><a href="week-06.html" aria-current="page">06 Space</a><a href="week-07.html">07 Objects</a><a href="week-09.html">09 Words</a><a href="week-10.html">10 Music</a><a href="week-11.html">11 Film</a></nav><button id="theme" type="button">화면 바꾸기</button></div><span id="pos" hidden></span></div>
 <main>
     <article>

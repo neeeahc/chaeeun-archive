@@ -1,0 +1,72 @@
+/* W05-B 워드마크형 · tokens.css v2.0
+   레퍼런스 Paul Kalkbrenner (paulkalkbrenner.net) 실측값. 학생은 이 파일을 고치지 않는다.
+   hex 는 이 파일과 my-style.css 에만 있다. 색 면(plane)은 sig.js 가 --my-bg / --my-point 에서 다시 계산해 덮어쓴다.
+   아래 --kb-* 색은 JS 가 없을 때의 대체값이다. */
+
+:root {
+  /* ── 레퍼런스 원색 (실측 :root) ── */
+  --kb-ref-light: #FFFFFF;   /* --color--light */
+  --kb-ref-dark: #000000;    /* --color--dark */
+  --kb-ref-gray: #C5C5C5;    /* --color--gray  = 흰색에서 검정 22.7% */
+  --kb-ref-green: #A7FF9C;   /* --color--green */
+  --kb-ref-orange: #FF6831;  /* --color--orange */
+
+  /* ── 색 면 (sig.js 가 덮어쓴다) ── */
+  --kb-bg: var(--my-bg, var(--kb-ref-light));
+  --kb-ink: var(--kb-ref-dark);
+  --kb-mid: color-mix(in srgb, var(--kb-bg), var(--kb-ink) 22.7%);
+  --kb-soft: var(--kb-ref-green);
+  --kb-point: var(--kb-ref-orange);
+  --kb-on-bg: var(--kb-ink);
+  --kb-on-mid: var(--kb-ink);
+  --kb-on-soft: var(--kb-ink);
+  --kb-on-ink: var(--kb-bg);
+  --kb-on-point: var(--kb-ink);
+
+  /* ── 크기 단위: 레퍼런스 --size-font = 컨테이너폭 ÷ (이상폭 ÷ 16) ── */
+  --kb-u: calc(clamp(992px, 100vw, 2560px) / 120);          /* 1920 이상폭 · 1280 → 10.667px */
+
+  /* ── 타입 스케일 (em = --kb-u 기준, 실측 클래스) ── */
+  --kb-hd: 12.5;      /* .h-d  12.5em · lh .8 · ls -.05em  (워드마크 · 격자 문장) */
+  --kb-hxl: 8;        /* .h-xl 8em · lh .8 · ls -.05em (큰 번호) */
+  --kb-hl: 3;         /* .h-l  3em · lh .9 · ls -.02em (가져올 한 가지 · 이유 제목) */
+  --kb-hm: 1.5;       /* .h-m  1.5em · lh .9 · ls -.02em (섹션 라벨) */
+  --kb-pl: 1.125;     /* .p-l  1.125em · lh 1 (본문 전부) */
+  --kb-ps: .875;      /* .p-s  .875em (캡션) */
+
+  /* ── 간격 (실측 :root) ── */
+  --kb-pad: .625;     /* --page-pad */
+  --kb-colpad: 1.25;  /* --col-pad = --gap-ml */
+  --kb-gap-xs: .5;
+  --kb-gap-s: .75;
+  --kb-gap-l: 1.5;
+  --kb-gap-xl: 2;
+  --kb-spacer: 15.625; /* spacer variant 250 = 250px@1920 */
+
+  /* ── 격자 문장 (exp-*) ── */
+  --kb-grid-col: 35;  /* --exp-grid-col */
+  --kb-grid-row: 10;  /* --exp-grid-row */
+  --kb-grid-dot: 8.5; /* --exp-grid-dot */
+
+  /* ── 워드마크 이미지 칸 (.home-hero__img-w) ── */
+  --kb-slot-w: .75em;    /* width .75em · aspect-ratio 1.5/1 */
+  --kb-slot-ratio: 1.5;
+  --kb-slot-gap: .05em;  /* margin-left .05em */
+
+  /* ── 모션 (odyn bundle) ── */
+  --kb-ease: cubic-bezier(.625, .05, 0, 1);   /* CustomEase "osmo" */
+  --kb-dur: .7s;                              /* --animation-default */
+  --kb-dur-half: .35s;
+  --kb-underline: .735s;                      /* [data-underline-link] */
+  --kb-char-stagger: .02s;                    /* --button-char-offset */
+
+  /* ── 한글 서체 짝 (--my-type) ── */
+  --kb-f-sans: "Pretendard Variable", Pretendard, -apple-system, "Apple SD Gothic Neo", sans-serif;
+  --kb-f-serif: "Noto Serif KR", "Nanum Myeongjo", serif;
+  --kb-f-mono: "Nanum Gothic Coding", ui-monospace, monospace;
+  --kb-f-hand: "Jua", "Pretendard Variable", sans-serif;
+}
+
+@media (max-width: 991px) { :root { --kb-u: calc(clamp(768px, 100vw, 991px) / 87.5); } }   /* 1400 이상폭 */
+@media (max-width: 767px) { :root { --kb-u: calc(clamp(480px, 100vw, 767px) / 43.75); } }  /* 700 */
+@media (max-width: 479px) { :root { --kb-u: calc(clamp(320px, 100vw, 479px) / 24.375); } } /* 390 → 16px */

@@ -1,0 +1,281 @@
+/* ═══ W05-B 워드마크형 · 내 스타일 — 학생이 고치는 파일은 이것 하나 ═══
+   아래 여섯 줄(공통) + 한 줄(이 시스템 고유: 사진 칸 자리)만 바꾼다. 따옴표 없이 쓴다. 저장 후 새로고침. */
+
+:root {
+  /* ① 바탕 색 — 이름이 놓이는 첫 면. 짙게 하면 글자가 밝게 뒤집힌다 */
+  --my-bg: #FFFFFF;
+
+  /* ② 포인트 색 — 마지막 색 면(가져올 한 가지)의 색. 이유 표의 옅은 면도 여기서 나온다. 없으면 none */
+  --my-point: #E3262B;
+
+  /* ③ 서체 짝   sans 고딕(기본) · serif 명조 · mono 고정폭 · hand 둥근 손글씨 */
+  --my-type: sans;
+
+  /* ④ 움직임   0 조용함 · 1 기본(사진이 이름 사이 칸으로 줄어든다) · 2 강함 */
+  --my-motion: 1;
+
+  /* ⑤ 밀도     0 비움 · 1 기본 · 2 꽉(글자·사진 크게) */
+  --my-density: 1;
+
+  /* ⑥ 이미지   native 이름 속 사진은 흑백 + 색 면 사진은 면 색에 먹이기(기본) · original 원본 · mono 흑백 · tint 포인트 색 덮기 */
+  --my-image: native;
+
+  /* ⑦ 고유 — 사진 칸 자리   auto = 띄어쓰기 자리, 없으면 성 뒤 · 숫자 N = 앞에서 N글자 뒤 */
+  --kb-split: auto;
+
+  /* ═══ 여기부터 5주 커스텀 (시스템 규칙 밖 — 학생 결정 2026-09-29) ═══ */
+  --doja-dark-red: #6B0A0E;   /* 이유 세 가지 — Paint the Town Red에서 떠올린 피 같은 다크 레드 */
+  --doja-light-red: #FFB3B0;  /* 다크 레드 위의 흐린 글자 */
+  --doja-black: #000000;      /* 근거 사진 */
+}
+
+/* 첫 화면 — 흑백으로 시작해 로고가 모이는 순간(2초) 원래 색으로 */
+.kb-hero-src { display: none; }
+.kb-piece img { transition: filter 1.2s ease; }
+html.kb-color .kb-piece img { filter: none; }
+
+/* 이유 세 가지 — 다크 레드 면 · 흰 글자 · 밝은 레드 흐린 글자 · 사진 원본 색 */
+section.kb-tour {
+  background: var(--doja-dark-red); color: #FFFFFF;
+  --kb-plane: var(--doja-dark-red); --kb-dim: var(--doja-light-red);
+}
+html.js .kb-tour-fig img { filter: none; mix-blend-mode: normal; }
+/* 이유 세 가지 — 스크롤 프레젠테이션(한화 사이트처럼, dj-captions.js).
+   섹션은 (장면 수 + 0.5) × 화면 높이만큼 길고, 그 안의 화면(.dj-tour-pin)이 영상과 함께 고정(sticky)된 채 문장만 바뀐다 */
+section.kb-tour { position: relative; display: block; padding: 0; width: 100%; height: calc((var(--dj-steps, 4) + .5) * 100svh);
+  background: #000; isolation: isolate; }
+.dj-tour-pin { position: sticky; top: 0; height: 100svh; overflow: hidden; }
+.kb-tour .dj-mv { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; margin: 0; background: #000; pointer-events: none; }
+.dj-tour-shade { position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(180deg, rgba(0, 0, 0, .25), rgba(0, 0, 0, .55)); }
+.dj-tour-pin .kb-label { position: absolute; z-index: 3; top: calc(var(--kb-u) * 1.2); left: var(--kb-pad-x); margin: 0; }
+.dj-tour-pin .dj-cap-stage { z-index: 2; }
+.dj-mv::-webkit-media-controls-start-playback-button,
+.dj-mv::-webkit-media-controls-overlay-play-button,
+.dj-mv::-webkit-media-controls { display: none !important; -webkit-appearance: none; }   /* Safari의 가운데 ▶ 표시 숨김 */
+
+/* 이유 세 가지 — 장면 문장(dj-captions.js). 표는 화면에서만 숨기고 화면 읽기 도구용으로 남긴다 */
+.kb-tour .kb-table { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.dj-cap-stage { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; padding: 0 6vw; }
+.dj-cap { grid-area: 1 / 1; max-width: min(1180px, 88vw); text-align: center; color: #FFFFFF; visibility: hidden;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, .45); }
+.dj-cap.is-on, .dj-cap.is-out { visibility: visible; }
+/* ① 번호 줄 — 작게, 넓은 자간 */
+.dj-cap-no { margin: 0 0 1.6em; font-family: "Pretendard Variable", sans-serif; font-size: clamp(11px, .9vw, 14px);
+  font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: #FFFFFF;
+  opacity: 0; transform: translateY(8px); transition: opacity .6s ease, transform .8s cubic-bezier(.2, .8, .2, 1); }
+.dj-cap.is-on .dj-cap-no { opacity: 1; transform: none; }
+/* ② 큰 문장 — 단어가 흐릿하게 아래에서 미끄러져 들어와 선명해진다. 자막 글꼴·색은 모두 흰색 Pretendard로 통일 */
+.dj-cap-big { margin: 0; font-family: "Pretendard Variable", sans-serif; font-weight: 800; letter-spacing: -.03em;
+  font-size: clamp(34px, 5.4vw, 92px); line-height: 1.12; word-break: keep-all; }
+.dj-cap-big em { font-family: inherit; font-style: normal; font-weight: inherit; letter-spacing: inherit; color: inherit; }   /* 글꼴·색 모두 통일(학생 요청) */
+.dj-w { display: inline-block; opacity: 0; filter: blur(14px); transform: translateY(.45em) scale(1.04); }
+.dj-cap.is-on .dj-w { opacity: 1; filter: blur(0); transform: none;
+  transition: opacity .7s ease, filter .9s ease, transform 1s cubic-bezier(.2, .8, .2, 1); transition-delay: calc(.25s + var(--i) * .11s); }
+.dj-cap.is-out .dj-w { opacity: 0; filter: blur(18px); transform: translateX(-.5em) scaleX(1.08);   /* 옆으로 흐려지며 빠진다 */
+  transition: opacity .5s ease, filter .5s ease, transform .6s cubic-bezier(.6, 0, .8, .2); transition-delay: calc(var(--i) * .03s); }
+/* ③ 설명 줄 — 한화식 줄 가림: 줄마다 아래에서 위로 드러난다 */
+.dj-cap-sub { margin: 1.6em auto 0; max-width: 46em; font-family: "Pretendard Variable", sans-serif; font-weight: 500;
+  font-size: clamp(14px, 1.25vw, 20px); line-height: 1.6; color: #FFFFFF; word-break: keep-all; }
+.dj-line { display: block; overflow: hidden; }
+.dj-line > span { display: block; transform: translateY(105%); }
+.dj-cap.is-on .dj-line > span { transform: none; transition: transform 1s cubic-bezier(.2, .8, .2, 1);
+  transition-delay: calc(.6s + var(--n) * .11s + var(--j) * .14s); }
+.dj-cap.is-out .dj-line > span { transform: translateY(-105%); transition: transform .5s cubic-bezier(.6, 0, .8, .2); }
+/* ④ 근거 링크 */
+.dj-cap-src { display: inline-block; margin-top: 2.2em; pointer-events: auto; font-family: "Pretendard Variable", sans-serif;
+  font-size: 12px; letter-spacing: .04em; color: #FFFFFF; text-decoration: none; border-bottom: 1px solid #FFFFFF;
+  opacity: 0; transition: opacity .6s ease, color .2s; }
+.dj-cap.is-on .dj-cap-src { opacity: 1; transition-delay: calc(1.2s + var(--n) * .11s); }
+.dj-cap-src:hover { color: #FFFFFF; }
+/* 마지막 — 키워드 세 줄을 한화처럼 계단으로: 줄마다 정확히 2em씩 들여쓴다(학생 요청: 애매한 정렬 대신 단을 분명히) */
+.dj-cap-stairs { display: inline-block; text-align: left; }   /* 덩어리는 가운데, 줄은 왼쪽 정렬 */
+.dj-cap-stairs > span { display: block; }
+.dj-cap-stairs > span:nth-child(2) { margin-left: 2em; }    /* 한 단씩 같은 폭으로 내려 쌓는 계단 */
+.dj-cap-stairs > span:nth-child(3) { margin-left: 4em; }
+/* 진행 막대 — 지난 장면은 다 차고, 지금 장면은 스크롤한 만큼 찬다. 누르면 그 장면으로 */
+.dj-cap-progress { position: absolute; left: 50%; bottom: clamp(18px, 3vw, 40px); translate: -50% 0; display: flex; gap: 6px; }
+.dj-cap-progress { pointer-events: auto; }
+.dj-cap-progress button { display: block; padding: 12px 0; margin: 0; border: 0; background: none; cursor: pointer; }   /* 누르기 쉽게 위아래 여유 */
+.dj-cap-progress i { display: block; position: relative; width: 36px; height: 2px; background: rgba(255, 255, 255, .25); overflow: hidden; transition: background .2s; }
+.dj-cap-progress button:hover i { background: rgba(255, 255, 255, .55); }
+.dj-cap-progress i::after { content: ""; position: absolute; inset: 0; background: #FFFFFF; transform: scaleX(var(--p, 0)); transform-origin: left; }   /* 스크롤한 만큼 찬다 */
+@media (prefers-reduced-motion: reduce) {
+  .dj-w, .dj-line > span, .dj-cap-no, .dj-cap-src { transition: none !important; filter: none !important; }
+}
+
+/* 표 괘선 — 흰 선 30% (65% → 30%: 선이 물러나 글자가 먼저 읽히게) */
+.kb-tour .kb-rows { border-top-color: rgba(255, 255, 255, .3); }
+.kb-tour .kb-row { border-bottom-color: rgba(255, 255, 255, .3); }
+
+/* 근거 사진 — etienne.studio 첫 화면 3D 링 (4주 site_etienne 값: 원근 1100px · 카드 폭 13vw(130~250px) · 좌우 16px · 글자 12px Inter Tight)
+   레퍼런스는 흰 바탕이지만 앞서 정한 검정 면을 유지. 사진은 원본 비율(높이 auto) */
+.dj-ring-section { height: 300vh; background: var(--doja-black); color: #FFFFFF; }   /* 끝까지 내리면 한 바퀴 */
+.dj-ring-stage {
+  position: sticky; top: 0; height: 100vh; overflow: hidden;
+  perspective: 1100px; perspective-origin: 50% 50%;
+  display: grid; place-items: center;
+}
+.dj-ring { position: relative; width: var(--dj-card-w); height: 1px; transform-style: preserve-3d; --dj-card-w: clamp(170px, 18vw, 340px); }   /* 13vw → 18vw: 사진은 크게, 사이 간격은 좁게 */
+.dj-card { position: absolute; left: 0; top: 0; width: var(--dj-card-w); margin: 0; translate: 0 -50%; transform-origin: 50% 50%; }
+.dj-card img { display: block; width: 100%; height: auto; max-height: none; aspect-ratio: auto; object-fit: contain; }   /* 자르지 않고 원본 비율 그대로 줄임 */
+.dj-ring-note {
+  position: absolute; left: 16px; bottom: 20px; display: flex; gap: 4px; align-items: baseline;
+  font-family: "Inter Tight", "Helvetica Neue", Helvetica, "Pretendard Variable", Arial, sans-serif;
+  font-size: 12px; line-height: 1.2; font-weight: 500;
+}
+.dj-ring-count { color: #999999; font-size: 11px; font-weight: 600; }
+.dj-card { cursor: zoom-in; }
+.dj-card:focus-visible { outline: 1px solid #FFFFFF; outline-offset: 4px; }
+/* 호버 — 마블링 일그러짐(dj-ring.js 스프링이 --dj-melt 0→1 을 준다) + 흐림 30%(2.4px)
+   녹는 만큼 흐림과 확대가 함께 커진다 */
+.dj-ring-section { --dj-blur: 2.4px; }
+.dj-card img { transition: transform .9s cubic-bezier(.2, .8, .2, 1); }
+.dj-card.is-warp img {
+  filter: url(#dj-warp) blur(calc(var(--dj-blur) * var(--dj-melt, 0)));
+  transform: scale(calc(1 + .08 * var(--dj-melt, 0)));
+}
+
+/* 팝업 크게 보기 — 화면의 90% 창, 뒤는 흐리게. 글자는 readymag 규칙(대문자 · 지금 사진만 파랑 #0000FF) */
+html.dj-lb-open { overflow: hidden; }
+.dj-lb {
+  position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center;
+  font-family: "Inter Tight", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px; line-height: 1.15; font-weight: 400; text-transform: uppercase; color: #FFFFFF;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, .35);   /* 색 면 없이 흐린 배경 위에서도 글자가 읽히게 */
+  -webkit-user-select: none; user-select: none;  /* 빠르게 넘길 때 사진이 '선택'돼 어둡게 덮이던 문제 */
+}
+.dj-lb[hidden] { display: none; }
+.dj-lb-back {
+  position: absolute; inset: 0; background: transparent;   /* 배경 색 없이 블러만 (전 18px → 절반 9px) */
+  backdrop-filter: blur(9px); -webkit-backdrop-filter: blur(9px);
+  opacity: 0; transition: opacity .32s ease; cursor: zoom-out;
+}
+.dj-lb-panel {
+  position: relative; width: 90vw; height: 90vh; background: transparent;
+  display: grid; grid-template-rows: auto 1fr auto; padding: 16px;
+  pointer-events: none;
+  opacity: 0; transform: translateY(24px) scale(.96); transition: opacity .32s ease, transform .45s cubic-bezier(.2, .8, .2, 1);
+}
+.dj-lb.is-in .dj-lb-back { opacity: 1; }
+.dj-lb.is-in .dj-lb-panel { opacity: 1; transform: none; }
+.dj-lb button { font: inherit; text-transform: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+.dj-lb-top { display: flex; justify-content: space-between; align-items: baseline; }
+.dj-lb-count { margin: 0; font-variant-numeric: tabular-nums; }
+.dj-lb-close { white-space: nowrap; }
+.dj-lb-close:hover, .dj-lb-list button:hover { color: #E3262B; }
+.dj-lb button:focus { outline: none; }
+.dj-lb button:focus-visible { outline: 1px solid currentColor; outline-offset: 3px; }
+.dj-lb-count { display: inline-block; will-change: transform; }
+.dj-lb-stage { position: relative; min-height: 0; display: flex; align-items: center; justify-content: center; margin: 12px 0; cursor: none; }
+.dj-lb-img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; display: block;
+  -webkit-user-drag: none; user-select: none; box-shadow: 0 30px 80px rgba(0, 0, 0, .35); }   /* 가운데 · 자르지 않고 창에 꽉 */
+.dj-lb-top, .dj-lb-stage, .dj-lb-list { pointer-events: auto; }
+.dj-lb-img::selection { background: transparent; }
+.dj-lb-arrow {
+  position: absolute; left: 50%; top: 50%; translate: -50% -50%; pointer-events: none;
+  color: #FFFFFF; font-size: 48px; line-height: 1; text-shadow: 0 0 12px rgba(0, 0, 0, .4); opacity: 0; transition: opacity .15s;
+}
+.dj-lb-stage.is-hover .dj-lb-arrow { opacity: 1; }
+.dj-lb-list { list-style: none; margin: 0; padding: 0; display: flex; justify-content: center; flex-wrap: wrap; column-gap: 20px; row-gap: 4px; }
+.dj-lb-list button.is-on { color: #E3262B; }   /* 지금 사진 — 파랑 → 사이트 레드 */
+@media (max-width: 767px) {
+  .dj-lb-panel { width: 94vw; height: 88vh; padding: 12px; }
+  .dj-lb { font-size: 12px; }
+  .dj-lb-stage { cursor: pointer; }
+}
+
+/* 상단 바 왼쪽 동그라미 표시(D) 숨김 — 학생 요청. 맨 아래 출처의 표시는 그대로 */
+.kb-nav .kb-mark { display: none; }
+
+/* 거미 커서 (dj-cursor.js) — 원래 커서는 숨기고 거미가 따라온다. 흰·검정·레드 어느 바탕에서도 보이게 옅은 그림자 */
+html.dj-spider-on, html.dj-spider-on * { cursor: none !important; }
+.dj-spider {
+  position: fixed; left: 0; top: 0; width: 38px; height: 38px; z-index: 2000; pointer-events: none;
+  opacity: 0; transition: opacity .25s ease; will-change: transform;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, .35)) drop-shadow(0 0 1px rgba(255, 255, 255, .7));   /* 작아진 만큼 그림자도 작게 */
+}
+.dj-spider.is-on { opacity: 1; }
+.dj-spider img { display: block; width: 100%; height: 100%; }
+
+/* 첫 화면 사진 넘김이 빨라진 만큼 사라짐도 짧게 */
+.kb-piece[data-s="active"] { transition: opacity .12s ease 0s, visibility 0s 0s; }
+.kb-piece[data-s="prev"]   { transition: opacity .12s ease .12s, visibility 0s .24s; }
+
+/* 첫 화면 로고 — New Rocker (Google Fonts) */
+.kb-wm { font-family: 'New Rocker', 'Pretendard Variable', sans-serif; font-weight: 400; }
+
+/* 로고 색 — 검정으로 모였다가(2초, html.kb-color) 왼쪽부터 레드가 차올라 완성된다 */
+/* 로고 색 변수를 '색'으로 등록해 두어야 앨범 호버 때 로고 색도 천천히 바뀐다 */
+@property --dj-logo { syntax: "<color>"; inherits: true; initial-value: #B0141C; }
+@property --dj-hero-ink { syntax: "<color>"; inherits: true; initial-value: #000000; }
+.kb-hero { position: relative; --dj-hero-red: #B0141C; --dj-logo: var(--dj-hero-red);   /* 메인 레드: #E3262B → 더 어두운 #B0141C */ --dj-hero-bg: #FFFFFF; --dj-hero-ink: #000000;
+  background: var(--dj-hero-bg);
+  /* 앨범 호버 반전 — .45초 → 1.1초로 천천히 */
+  transition: background-color 1.1s cubic-bezier(.4, 0, .2, 1), color 1.1s cubic-bezier(.4, 0, .2, 1),
+              --dj-logo 1.1s cubic-bezier(.4, 0, .2, 1), --dj-hero-ink 1.1s cubic-bezier(.4, 0, .2, 1); }
+.kb-now-k, .dj-alb-year { transition: color 1.1s cubic-bezier(.4, 0, .2, 1); }
+.kb-wm-a, .kb-wm-b {
+  color: transparent; -webkit-background-clip: text; background-clip: text;
+  background-image: linear-gradient(90deg, var(--dj-logo) 0 50%, var(--dj-hero-ink) 50% 100%);
+  background-size: 200% 100%; background-position: 100% 0;
+  transition: background-position 1.3s cubic-bezier(.7, 0, .2, 1);
+}
+.kb-wm-b { transition-delay: .18s; }
+html.kb-color .kb-wm-a, html.kb-color .kb-wm-b { background-position: 0 0; }
+/* 앨범에 올리면 배경과 로고 색이 뒤바뀐다: 흰 바탕·레드 로고 → 레드 바탕·흰 로고 */
+.kb-hero:has(.dj-alb a:hover), .kb-hero:has(.dj-alb a:focus-visible) { --dj-hero-bg: var(--dj-hero-red); --dj-logo: #FFFFFF; --dj-hero-ink: #FFFFFF; background-color: var(--dj-hero-red); color: #FFFFFF; }
+.kb-hero:has(.dj-alb a:hover) .kb-now-k, .kb-hero:has(.dj-alb a:focus-visible) .kb-now-k { color: #FFFFFF; }
+.kb-hero:has(.dj-alb a:hover) .dj-alb-year, .kb-hero:has(.dj-alb a:focus-visible) .dj-alb-year { color: rgba(255, 255, 255, .7); }
+
+/* 로고 호버 — 물결(dj-logo.js): 마우스가 지나간 자리에 파동이 일어 로고 전체로 퍼진다.
+   물결이 있는 동안만 WebGL 캔버스로 그리고 원래 글자는 숨긴다. 잔잔해지면 원래 글자로 */
+.kb-wm { position: relative; cursor: default; }
+.kb-wm { -webkit-user-select: none; user-select: none; touch-action: none; }   /* 클릭&드래그로 로고를 늘릴 때 글자 선택·화면 끌림이 생기지 않게 */
+.dj-wave { position: absolute; pointer-events: none; z-index: 2; visibility: hidden; }
+.kb-wm.is-wave .dj-wave { visibility: visible; }
+.kb-wm.is-wave .kb-wm-a, .kb-wm.is-wave .kb-wm-b { visibility: hidden; }
+
+/* 로고 주위의 앨범 — 모서리 8px, 로고가 완성될 때 하나씩 떠오른다. 누르면 스포티파이 */
+.dj-albums { list-style: none; margin: 0; padding: 0; position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+.dj-alb { position: absolute; width: var(--w); pointer-events: auto;
+  opacity: 0; translate: 0 16px; transition: opacity .6s ease, translate .8s cubic-bezier(.2, .8, .2, 1); }
+html.kb-color .dj-alb { opacity: 1; translate: 0 0; transition-delay: calc(.9s + var(--i) * .12s); }
+.dj-alb a { display: block; color: inherit; text-decoration: none; }
+.dj-alb img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 0;   /* 8px → 0 (학생 요청) */
+  transition: transform 1.1s cubic-bezier(.2, .8, .2, 1), box-shadow 1.1s; }   /* 앨범 들림 .5초 → 1.1초 */
+/* 앨범 호버 — 기울어짐 대신 덜덜 떨린다(학생 요청). 떨림은 약 2배(±5px·±1.5°)로 세게, 크기는 0.35초에 걸쳐 1.12배로 커진 채 떨린다 */
+.dj-alb img { scale: 1; transition: scale .35s cubic-bezier(.2, .8, .2, 1); }   /* 크기는 따로 부드럽게 커지고(떨림과 겹쳐 적용) */
+.dj-alb a:hover img, .dj-alb a:focus-visible img { scale: 1.12; animation: dj-shiver .3s linear infinite; }
+@keyframes dj-shiver {
+  0%   { transform: translate(0, 0) rotate(0); }
+  12%  { transform: translate(-5px, 2px) rotate(-1.4deg); }
+  25%  { transform: translate(4px, -3px) rotate(1.5deg); }
+  37%  { transform: translate(-3px, -5px) rotate(-1deg); }
+  50%  { transform: translate(5px, 4px) rotate(1.2deg); }
+  62%  { transform: translate(-5px, 0) rotate(-1.5deg); }
+  75%  { transform: translate(3px, -4px) rotate(1deg); }
+  87%  { transform: translate(-2px, 5px) rotate(-.8deg); }
+  100% { transform: translate(0, 0) rotate(0); }
+}
+@media (prefers-reduced-motion: reduce) { .dj-alb a:hover img, .dj-alb a:focus-visible img { animation: none; } }
+.dj-alb a:focus { outline: none; }
+.dj-alb a:focus-visible { outline: 1px solid currentColor; outline-offset: 4px; }   /* 클릭 뒤 남던 파란 테두리 대신, 키보드로 갈 때만 얇은 선 */
+.dj-alb-name, .dj-alb-year { display: block; font-family: "Inter Tight", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 12px; line-height: 1.15; }
+.dj-alb-name { margin-top: 6px; font-weight: 600; }
+.dj-alb-year { color: #999999; font-weight: 500; }
+/* 자리 — 로고(가운데 띠)를 비워 두고 위·아래로 흩어 놓는다 */
+/* 크기 약 20% 줄임 */
+.dj-alb--1 { --w: clamp(58px, 6.8vw, 120px); --i: 0; left: 6%;  top: 13%; }
+.dj-alb--2 { --w: clamp(52px, 5.6vw, 96px);  --i: 1; left: 37%; top: 9%; }
+.dj-alb--3 { --w: clamp(64px, 8vw, 144px);   --i: 2; right: 7%; top: 11%; }
+.dj-alb--4 { --w: clamp(54px, 6.4vw, 112px); --i: 3; left: 16%; bottom: 13%; }
+.dj-alb--5 { --w: clamp(60px, 7.2vw, 128px); --i: 4; left: 55%; bottom: 8%; }
+.dj-alb--6 { --w: clamp(52px, 6vw, 104px);   --i: 5; right: 4%; bottom: 17%; }
+@media (max-width: 767px) {
+  .dj-alb--1 { left: 4%; top: 12%; } .dj-alb--2 { left: 40%; top: 9%; } .dj-alb--3 { right: 4%; top: 14%; }
+  .dj-alb--4 { left: 6%; bottom: 16%; } .dj-alb--5 { left: 40%; bottom: 12%; } .dj-alb--6 { right: 4%; bottom: 18%; }
+  .dj-alb-name, .dj-alb-year { font-size: 10px; }
+}
+
+/* 내가 좋아하는 한 사람 — 어절 앞 점 없음 (글자 30px는 sig.js) */
+.kb-w i { display: none; }

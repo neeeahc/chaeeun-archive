@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>9주 말 — 이채은</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- 12주 갤러리용: 5주 사이트(07 폴더 판)의 근거 사진 3D 링 + 크게 보기 팝업을 그대로 옮겨 9주 말 다섯 장을 넣었다 -->
+<style>
+:root{--doja-black:#000000} html,body{margin:0;background:#000;color:#fff} *{box-sizing:border-box}
+.dj-ring-section { height: 300vh; background: var(--doja-black); color: #FFFFFF; }   /* 끝까지 내리면 한 바퀴 */
+.dj-ring-stage {
+  position: sticky; top: 0; height: 100vh; overflow: hidden;
+  perspective: 1100px; perspective-origin: 50% 50%;
+  display: grid; place-items: center;
+}
+.dj-ring { position: relative; width: var(--dj-card-w); height: 1px; transform-style: preserve-3d; --dj-card-w: clamp(170px, 18vw, 340px); }   /* 13vw → 18vw: 사진은 크게, 사이 간격은 좁게 */
+.dj-card { position: absolute; left: 0; top: 0; width: var(--dj-card-w); margin: 0; translate: 0 -50%; transform-origin: 50% 50%; }
+.dj-card img { display: block; width: 100%; height: auto; max-height: none; aspect-ratio: auto; object-fit: contain; }   /* 자르지 않고 원본 비율 그대로 줄임 */
+.dj-ring-note {
+  position: absolute; left: 16px; bottom: 20px; display: flex; gap: 4px; align-items: baseline;
+  font-family: "Inter Tight", "Helvetica Neue", Helvetica, "Pretendard Variable", Arial, sans-serif;
+  font-size: 12px; line-height: 1.2; font-weight: 500;
+}
+.dj-ring-count { color: #999999; font-size: 11px; font-weight: 600; }
+.dj-card { cursor: zoom-in; }
+.dj-card:focus-visible { outline: 1px solid #FFFFFF; outline-offset: 4px; }
+/* 호버 — 마블링 일그러짐(dj-ring.js 스프링이 --dj-melt 0→1 을 준다) + 흐림 30%(2.4px)
+   녹는 만큼 흐림과 확대가 함께 커진다 */
+.dj-ring-section { --dj-blur: 2.4px; }
+.dj-card img { transition: transform .9s cubic-bezier(.2, .8, .2, 1); }
+.dj-card.is-warp img {
+  filter: url(#dj-warp) blur(calc(var(--dj-blur) * var(--dj-melt, 0)));
+  transform: scale(calc(1 + .08 * var(--dj-melt, 0)));
+}
+
+/* 팝업 크게 보기 — 화면의 90% 창, 뒤는 흐리게. 글자는 readymag 규칙(대문자 · 지금 사진만 파랑 #0000FF) */
+html.dj-lb-open { overflow: hidden; }
+.dj-lb {
+  position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center;
+  font-family: "Inter Tight", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px; line-height: 1.15; font-weight: 400; text-transform: uppercase; color: #FFFFFF;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, .35);   /* 색 면 없이 흐린 배경 위에서도 글자가 읽히게 */
+  -webkit-user-select: none; user-select: none;  /* 빠르게 넘길 때 사진이 '선택'돼 어둡게 덮이던 문제 */
+}
+.dj-lb[hidden] { display: none; }
+.dj-lb-back {
+  position: absolute; inset: 0; background: transparent;   /* 배경 색 없이 블러만 (전 18px → 절반 9px) */
+  backdrop-filter: blur(9px); -webkit-backdrop-filter: blur(9px);
+  opacity: 0; transition: opacity .32s ease; cursor: zoom-out;
+}
+.dj-lb-panel {
+  position: relative; width: 90vw; height: 90vh; background: transparent;
+  display: grid; grid-template-rows: auto 1fr auto; padding: 16px;
+  pointer-events: none;
+  opacity: 0; transform: translateY(24px) scale(.96); transition: opacity .32s ease, transform .45s cubic-bezier(.2, .8, .2, 1);
+}
+.dj-lb.is-in .dj-lb-back { opacity: 1; }
+.dj-lb.is-in .dj-lb-panel { opacity: 1; transform: none; }
+.dj-lb button { font: inherit; text-transform: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+.dj-lb-top { display: flex; justify-content: space-between; align-items: baseline; }
+.dj-lb-count { margin: 0; font-variant-numeric: tabular-nums; }
+.dj-lb-close { white-space: nowrap; }
+.dj-lb-close:hover, .dj-lb-list button:hover { color: #E3262B; }
+.dj-lb button:focus { outline: none; }
+.dj-lb button:focus-visible { outline: 1px solid currentColor; outline-offset: 3px; }
+.dj-lb-count { display: inline-block; will-change: transform; }
+.dj-lb-stage { position: relative; min-height: 0; display: flex; align-items: center; justify-content: center; margin: 12px 0; cursor: none; }
+.dj-lb-img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; display: block;
+  -webkit-user-drag: none; user-select: none; box-shadow: 0 30px 80px rgba(0, 0, 0, .35); }   /* 가운데 · 자르지 않고 창에 꽉 */
+.dj-lb-top, .dj-lb-stage, .dj-lb-list { pointer-events: auto; }
+.dj-lb-img::selection { background: transparent; }
+.dj-lb-arrow {
+  position: absolute; left: 50%; top: 50%; translate: -50% -50%; pointer-events: none;
+  color: #FFFFFF; font-size: 48px; line-height: 1; text-shadow: 0 0 12px rgba(0, 0, 0, .4); opacity: 0; transition: opacity .15s;
+}
+.dj-lb-stage.is-hover .dj-lb-arrow { opacity: 1; }
+.dj-lb-list { list-style: none; margin: 0; padding: 0; display: flex; justify-content: center; flex-wrap: wrap; column-gap: 20px; row-gap: 4px; }
+.dj-lb-list button.is-on { color: #E3262B; }   /* 지금 사진 — 파랑 → 사이트 레드 */
+@media (max-width: 767px) {
+  .dj-lb-panel { width: 94vw; height: 88vh; padding: 12px; }
+  .dj-lb { font-size: 12px; }
+  .dj-lb-stage { cursor: pointer; }
+}
+
+.dj-ring-section{height:100vh!important}.dj-ring{visibility:hidden!important}.dj-lb-back{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:#000!important}.dj-ring-note,.dj-lb-close{display:none!important}.dj-lb-back{cursor:default!important}
+</style>
+<script src="dj-ring.js?v=2" defer></script>
+</head><body>
+<main>
+  <section class="dj-ring-section" id="gal" aria-label="9주 말">
+    <div class="dj-ring-stage">
+      <div class="dj-ring" id="dj-ring">
+        <figure class="dj-card" data-name="고진감래"><img src="assets/w09_01.png" alt="9주 말 1" width="1080" height="1350"></figure>
+        <figure class="dj-card" data-name="R.P.G. Shine"><img src="assets/w09_02.png" alt="9주 말 2" width="1080" height="1350"></figure>
+        <figure class="dj-card" data-name="등산은 왜 할까"><img src="assets/w09_03.png" alt="9주 말 3" width="1080" height="1350"></figure>
+        <figure class="dj-card" data-name="삶과 잠과 언니와 나"><img src="assets/w09_04.png" alt="9주 말 4" width="1080" height="1350"></figure>
+        <figure class="dj-card" data-name="I'MMORTAL"><img src="assets/w09_05.png" alt="9주 말 5" width="1080" height="1350"></figure>
+        <figure class="dj-card" data-name="고진감래" aria-hidden="true"><img src="assets/w09_01.png" alt="" width="1080" height="1350"></figure>
+        <figure class="dj-card" data-name="R.P.G. Shine" aria-hidden="true"><img src="assets/w09_02.png" alt="" width="1080" height="1350"></figure>
+        <figure class="dj-card" data-name="등산은 왜 할까" aria-hidden="true"><img src="assets/w09_03.png" alt="" width="1080" height="1350"></figure>
+        <figure class="dj-card" data-name="삶과 잠과 언니와 나" aria-hidden="true"><img src="assets/w09_04.png" alt="" width="1080" height="1350"></figure>
+        <figure class="dj-card" data-name="I'MMORTAL" aria-hidden="true"><img src="assets/w09_05.png" alt="" width="1080" height="1350"></figure>
+      </div>
+      <p class="dj-ring-note"><span>말</span><span class="dj-ring-count">(05)</span></p>
+    </div>
+  </section>
+</main>
+</body></html>

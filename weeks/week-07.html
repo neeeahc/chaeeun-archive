@@ -443,5 +443,35 @@ document.addEventListener("keydown",function(e){var r=o.getBoundingClientRect(),
 shots.forEach(function(s,k){if(!s.box)return;s.img.style.cursor="pointer";s.img.tabIndex=0;function jump(){go(k);var r=o.getBoundingClientRect();if(r.top<0||r.bottom>innerHeight)o.scrollIntoView({behavior:"smooth",block:"center"});}
  s.img.addEventListener("click",jump);s.img.addEventListener("keydown",function(e){if(e.key==="Enter")jump();});});
 })();</script>
+<script>/* 12주: 7주 물건은 평소에 사진 모양 그대로 딴 빨간 그래픽. 마우스를 올려 두면 그 자리에서부터 원본 사진이
+   물감이 번지듯 불규칙한 가장자리로 천천히 스며 나온다(오래 둘수록 넓어진다). 마우스를 떼면 되돌아가지 않고 사진 전체가 천천히 드러난 채 그대로 남는다 */
+(function(){
+function rnd(a,b){return a+Math.random()*(b-a);}
+var RESETS=[];/* 카드를 넘기면 드러난 사진을 모두 다시 빨간 모자이크로 돌려놓는다 */
+(function watch(){var c=document.querySelector(".car .c");if(!c){setTimeout(watch,200);return;}var last=c.textContent;new MutationObserver(function(){if(c.textContent!==last){last=c.textContent;RESETS.forEach(function(f){f();});}}).observe(c,{childList:true,characterData:true,subtree:true});})();
+function setup(im){var m=(im.getAttribute("src")||"").match(/w07_0(\d)\.jpg/);if(!m||im.dataset.g)return false;im.dataset.g="1";
+ var box=im.parentNode,photo=new Image();photo.src=im.src;im.src=im.src.replace(/w07_0(\d)\.jpg/,"w07_m0$1.png");
+ var cv=document.createElement("canvas");cv.className="g-orig";box.appendChild(cv);var ctx=cv.getContext("2d");
+ var mk=document.createElement("canvas"),mx=mk.getContext("2d");
+ var hov=false,mxp=.5,myp=.5,t0=0,alive=false,last=0,amt=0,kept=false;
+ function size(){var r=box.getBoundingClientRect(),d=Math.min(2,devicePixelRatio||1),w=Math.max(1,Math.round(r.width*d)),h=Math.max(1,Math.round(r.height*d));if(cv.width!==w||cv.height!==h){cv.width=mk.width=w;cv.height=mk.height=h;}return d;}
+ function stamp(x,y,R){/* 불규칙한 물감 자국: 크고 작은 흐린 점 여러 개 */
+  var n=7;for(var k=0;k<n;k++){var a=rnd(0,6.283),dd=rnd(0,R*.55),cx=x+Math.cos(a)*dd,cy=y+Math.sin(a)*dd,rr=R*rnd(.35,.75);
+   var g=mx.createRadialGradient(cx,cy,0,cx,cy,rr);g.addColorStop(0,"rgba(0,0,0,.22)");g.addColorStop(.6,"rgba(0,0,0,.10)");g.addColorStop(1,"rgba(0,0,0,0)");mx.fillStyle=g;mx.beginPath();mx.arc(cx,cy,rr,0,6.283);mx.fill();}
+  for(var q=0;q<10;q++){var a2=rnd(0,6.283),d2=R*rnd(.6,1.15),r2=R*rnd(.04,.12);mx.fillStyle="rgba(0,0,0,"+rnd(.08,.25).toFixed(2)+")";mx.beginPath();mx.arc(x+Math.cos(a2)*d2,y+Math.sin(a2)*d2,r2,0,6.283);mx.fill();}}
+ function frame(t){var d=size(),W=cv.width,H=cv.height;var dt=Math.min(50,t-(last||t));last=t;
+  if(hov){var held=(t-t0)/1000,R=Math.min(W,H)*Math.min(.55,.08+held*.09);stamp(mxp*W,myp*H,R*d/d);amt=1;}
+  else{/* 뗀 뒤에는 되돌아가지 않고, 남은 부분까지 천천히 번져 원본 사진으로 채워진 채 남는다 */mx.fillStyle="rgba(0,0,0,"+(dt/1000*0.8).toFixed(3)+")";mx.fillRect(0,0,W,H);for(var q=0;q<3;q++)stamp(rnd(0,W),rnd(0,H),Math.min(W,H)*.25);amt-=dt/2200;if(amt<=0){mx.fillStyle="#000";mx.fillRect(0,0,W,H);kept=true;}}
+  ctx.globalCompositeOperation="source-over";ctx.clearRect(0,0,W,H);if(photo.complete&&photo.naturalWidth)ctx.drawImage(photo,0,0,W,H);
+  ctx.globalCompositeOperation="destination-in";ctx.drawImage(mk,0,0);
+  if(hov||amt>0){requestAnimationFrame(frame);}else{alive=false;}}
+ function pos(e){var r=box.getBoundingClientRect();mxp=(e.clientX-r.left)/r.width;myp=(e.clientY-r.top)/r.height;}
+ box.addEventListener("mouseenter",function(e){if(kept)return;pos(e);hov=true;t0=performance.now();if(!alive){alive=true;last=0;requestAnimationFrame(frame);}});
+ box.addEventListener("mousemove",pos);box.addEventListener("mouseleave",function(){hov=false;});
+ RESETS.push(function(){kept=false;hov=false;amt=0;mx.clearRect(0,0,mk.width,mk.height);ctx.clearRect(0,0,cv.width,cv.height);});
+ return true;}
+var st=document.createElement("style");st.textContent='.car-s .g-orig{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none}';document.head.appendChild(st);
+function go(){var c=0;document.querySelectorAll(".car-s img").forEach(function(im){if(setup(im))c++;});return c;}
+var t=0,iv=setInterval(function(){if(go()||++t>40)clearInterval(iv);},150);})();</script>
 </body>
 </html>

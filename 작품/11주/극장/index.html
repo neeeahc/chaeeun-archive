@@ -173,7 +173,7 @@ footer{background:#000;color:var(--mute);display:flex;justify-content:space-betw
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.screen h2 .w{transform:none}.hsm i,.hbig i,.hsub span i{transform:none}.sws button,.pts span{opacity:1;transform:none}.area i{width:var(--w)}.screen img{opacity:1;transform:none}}
 </style>
-<style>/* 12주 갤러리 복사본: 갤러리 안에 넣었을 때 위 메뉴와 겹치지 않게 내린다 */html.in-gallery header{top:56px}</style><script>if(/[?&]embed=1/.test(location.search)){document.documentElement.classList.add("in-gallery");var __g=function(){parent.postMessage({gnbDark:scrollY>innerHeight*0.55},"*")};addEventListener("scroll",__g,{passive:true});addEventListener("load",__g)}</script>
+<style>/* 12주 갤러리 복사본: 갤러리 안에 넣었을 때 위 메뉴와 겹치지 않게 내린다 */html.in-gallery header{top:56px}.hscene img,.screen img{filter:brightness(.45)}#gnb{display:none!important}/* 영화 이름 메뉴는 숨겨 "이채은의 Cinema"와 겹치지 않게 *//* 모자이크 배경 위에 검정 35%를 깐 것과 같은 효과 */</style><script>if(/[?&]embed=1/.test(location.search)){document.documentElement.classList.add("in-gallery");var __g=function(){parent.postMessage({gnbDark:scrollY>innerHeight*0.55},"*")};addEventListener("scroll",__g,{passive:true});addEventListener("load",__g)}</script>
 </head>
 <body>
 <header id="hd" class="over">
@@ -210,7 +210,7 @@ footer{background:#000;color:var(--mute);display:flex;justify-content:space-betw
   "films": [
     {
       "no": "01",
-      "title": "에브리씽 에브리웨어 올 앳 원스",
+      "title": "에브리씽 에브리웨어\n올 앳 원스",
       "titleEn": "Everything Everywhere All at Once",
       "director": "Daniel Kwan · Daniel Scheinert",
       "year": "2022",
@@ -1232,5 +1232,24 @@ head(); scrub(); (document.fonts && document.fonts.ready ? document.fonts.ready 
 window.__cin = {openLb, tone, pt};
 })();
 </script>
+<link href="https://fonts.googleapis.com/css2?family=Jua&family=Cute+Font&family=Sunflower:wght@300;500&family=Gothic+A1:wght@300;500&family=Playfair+Display:ital,wght@1,500&family=Hahmlet:wght@800;900&family=Noto+Sans+KR:wght@300&family=IBM+Plex+Sans+KR:wght@200&display=swap" rel="stylesheet">
+<style>/* 12주 갤러리 복사본: 2~5번 영화 제목을 각 포스터 타이포 느낌으로 (무료 글꼴과 색으로 다시 짠 것, 원래 로고 그림은 쓰지 않음) */
+#f02 h2.ty{display:flex;flex-wrap:wrap;align-items:stretch;gap:0;letter-spacing:0;line-height:1;top:96px;right:auto}
+#f02 .ty-a{background:#d9437e;color:#f5e22a;font:400 clamp(66px,10.5vw,176px)/1 "Cute Font",sans-serif;padding:.06em .22em 0;display:flex;align-items:center}
+#f02 .ty-r{display:grid;grid-template-rows:auto 1fr}
+#f02 .ty-b{background:#2e3f8f;color:#fff;font:500 clamp(22px,3vw,52px)/1 "Sunflower",sans-serif;padding:.18em .32em;justify-self:start}
+#f02 .ty-c{background:#2f7b3c;color:#fff;font:300 clamp(36px,5.4vw,92px)/1 "Sunflower",sans-serif;padding:.02em .24em .06em;border-left:.12em solid #4a4ea3;display:flex;align-items:center}
+#f03 h2.ty{font:italic 500 clamp(56px,10vw,170px)/1 "Playfair Display",serif;letter-spacing:.06em;color:#f3ead6;text-transform:uppercase}
+#f03 h2.ty .w{position:relative;display:inline-block}
+#f03 h2.ty .w::after{content:attr(data-t);position:absolute;left:.06em;top:-.05em;color:transparent;-webkit-text-stroke:1.5px #f3ead6;pointer-events:none}
+#f04 h2.ty{font:200 clamp(64px,12vw,200px)/1 "IBM Plex Sans KR",sans-serif;letter-spacing:-.02em}
+#f04 h2.ty .w:first-child{color:#5bc1ee}#f04 h2.ty .w:last-child{color:#f4c430}
+#f05 h2.ty{font:900 clamp(60px,11vw,190px)/1 "Hahmlet",serif;letter-spacing:-.03em;color:#fff}
+</style>
+<script>(function(){function go(){var a=document.querySelector("#f02 h2");if(!a)return setTimeout(go,150);
+a.classList.add("ty");a.innerHTML='<span class="ty-a">싸이보그</span><span class="ty-r"><span class="ty-b">지만</span><span class="ty-c">괜찮아</span></span>';
+var h=document.querySelector("#f03 h2");if(h){h.classList.add("ty");h.innerHTML='<span class="m"><span class="w" data-t="HAPPYEND">HAPPYEND</span></span>';}
+["#f04 h2","#f05 h2"].forEach(function(q){var e=document.querySelector(q);if(e)e.classList.add("ty");});}
+go();})();</script>
 </body>
 </html>

@@ -53,9 +53,15 @@ window.GALLERY = {
         "open": [
           {
             "label": "4주 사이트 열기",
-            "href": "작품/04주/index.html"
+            "href": "작품/04주_main/index.html"
           }
-        ]
+        ],
+        "embed": {
+          "src": "작품/04주_main/index.html?embed=1",
+          "noscroll": true,
+          "title": "4주 나의 시선 아카이브",
+          "caption": "4주에 만든 시선 아카이브 메인 화면이 이 안에서 그대로 동작합니다."
+        }
       }
     },
     {
@@ -104,7 +110,16 @@ window.GALLERY = {
             "src": "images/w05_05.png"
           }
         ],
-        "open": []
+        "open": [
+          {
+            "label": "5주 사이트 열기",
+            "href": "작품/05주_main/index.html"
+          }
+        ],
+        "embed": {
+          "src": "작품/05주_main/index.html?embed=1",
+          "title": "5주 내가 좋아하는 한 사람"
+        }
       }
     },
     {
@@ -137,12 +152,6 @@ window.GALLERY = {
             "meta": "Aquarium · 어둠 속 둥근 어항",
             "text": "삶에서 리프레시가 필요할 때 물고기들을 구경한다. 잡생각을 안 하게 돼서.",
             "src": "images/w06_04.jpg"
-          },
-          {
-            "title": "익숙한 고향부터 낯선 여행지까지",
-            "meta": "6주 사이트 첫 화면",
-            "text": "나는 마음이 쉬는 곳에 머문다.",
-            "src": "images/w06_01.png"
           }
         ],
         "open": []
@@ -249,7 +258,11 @@ window.GALLERY = {
             "label": "9주 책 열기",
             "href": "작품/09주/책/index.html"
           }
-        ]
+        ],
+        "embed": {
+          "src": "작품/09주_ring/index.html?embed=1",
+          "title": "9주 말 다섯 장"
+        }
       }
     },
     {
@@ -293,15 +306,18 @@ window.GALLERY = {
         ],
         "open": [
           {
-            "label": "10주 레코드 열기",
+            "label": "10주 레코드 파티 열기",
+            "href": "작품/10주/파티/index.html"
+          },
+          {
+            "label": "10주 레코드 플레이어 열기",
             "href": "작품/10주/레코드/index.html"
           }
         ],
         "embed": {
-          "src": "작품/10주/레코드/index.html?embed=1",
+          "src": "작품/10주/파티/index.html?embed=1",
           "noscroll": true,
-          "title": "10주 내 음악 페이지",
-          "caption": "내 레코드 페이지가 이 안에서 그대로 동작합니다. 판을 눌러 보세요."
+          "title": "10주 레코드 파티"
         }
       }
     },
@@ -362,7 +378,11 @@ window.GALLERY = {
             "label": "11주 극장 열기",
             "href": "작품/11주/극장/index.html"
           }
-        ]
+        ],
+        "embed": {
+          "src": "작품/11주/극장/index.html?embed=1",
+          "title": "11주 내 영화 극장"
+        }
       }
     }
   ]
