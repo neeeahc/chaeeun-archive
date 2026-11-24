@@ -48,11 +48,17 @@ body.v .stage{height:var(--sh,100%)}
 .np h2{margin:4px 0 0;font:400 calc(var(--s)*.075)/1.3 "Coolvetica","Inter Tight",sans-serif;letter-spacing:.005em}
 .np .a{margin:-6px 0 0;font:400 13px/1.4 "Inter Tight";color:var(--mute)}
 .np .why{margin:4px 0 0;font:400 13px/1.55 "Gothic A1";color:#3b3a38}
-.np .row{display:flex;align-items:flex-end;gap:12px;margin-top:auto}
-.np .yt{position:relative;width:62%;aspect-ratio:16/9;background:#111;border-radius:2px;overflow:hidden;flex:none}
+.np .row{display:flex;align-items:stretch;gap:12px;margin-top:auto}
+.np .yt{position:relative;width:56%;aspect-ratio:16/9;background:#1c1c1c;border-radius:2px;overflow:hidden;flex:none}
 .np .yt iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-.np .yt:empty{display:none}
-.np .hint{margin:auto 0 0;font:400 13px/1.5 "Gothic A1";color:var(--mute)}
+.np .yt .ph{position:absolute;inset:0;display:grid;place-items:center;font:400 13px/1 "Coolvetica","Inter Tight",sans-serif;letter-spacing:.08em;color:rgba(255,255,255,.45)}
+.np .ctl{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;min-width:0}
+.np .btns{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:8px}
+.np .btns button{all:unset;box-sizing:border-box;display:grid;place-items:center;width:46px;height:46px;border-radius:50%;cursor:pointer;color:var(--ink);transition:background .2s,color .2s}
+.np .btns button svg{width:26px;height:26px;fill:currentColor}
+.np .btns button:hover{opacity:.55}
+.np .btns button:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.np .hint{margin:4px 0 0;font:400 13px/1.5 "Gothic A1";color:var(--mute)}
 .np [hidden]{display:none!important}
 .np a{font:600 12px/1.4 "Inter Tight";letter-spacing:.06em;color:var(--ink);text-transform:uppercase}
 /* 속지: 앨범과 같은 크기. 케이스 뒤에서 오른쪽(세로 화면에서는 아래)으로 미끄러져 나온다 */
@@ -102,8 +108,10 @@ body.opened .close{opacity:1;pointer-events:auto}
       <h2 id="npt">Select a track</h2>
       <p class="a" id="npa">Chaeeun Lee</p>
       <p class="why" id="npw" hidden></p>
-      <p class="hint" id="nph">트랙리스트에서 곡 제목을 누르면 여기서 재생됩니다.</p>
-      <div class="row" id="nprow" hidden><div class="yt" id="yt"></div><a id="npl" href="#" target="_blank" rel="noopener">YouTube에서<br>열기 ↗</a></div>
+      <p class="hint" id="nph">트랙리스트에서 곡 제목을 누르거나 재생 버튼을 누르세요.</p>
+      <div class="row" id="nprow"><div class="yt"><div class="ph">西門 Ximen</div><div id="yt"></div></div>
+        <div class="ctl"><a id="npl" href="#" target="_blank" rel="noopener" hidden>YouTube에서<br>열기 ↗</a></div></div>
+      <div class="btns" role="group" aria-label="재생 조절"><button type="button" id="bprev" aria-label="이전 곡"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="5" width="2.4" height="14" rx="1"/><path d="M19 5.6v12.8a1 1 0 0 1-1.5.86L8.6 13.1a1.3 1.3 0 0 1 0-2.2l8.9-6.16A1 1 0 0 1 19 5.6z"/></svg></button><button type="button" class="pp" id="bplay" aria-label="재생"></button><button type="button" id="bnext" aria-label="다음 곡"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="16.6" y="5" width="2.4" height="14" rx="1"/><path d="M5 5.6v12.8a1 1 0 0 0 1.5.86l8.9-6.16a1.3 1.3 0 0 0 0-2.2L6.5 4.74A1 1 0 0 0 5 5.6z"/></svg></button></div>
     </div>
   </section>
   <div class="case" id="case" role="button" tabindex="0" aria-label="앨범 西門 Ximen 열기">
@@ -270,17 +278,41 @@ SONGS.forEach(function(s,i){var li=document.createElement("li");var b=document.c
   b.querySelector(".ar:not(.sub)").textContent=s.a;
   b.addEventListener("click",function(){play(i)});li.appendChild(b);list.appendChild(li)});
 function full(s){return s.t+(s.sub?" "+s.sub:"")}
-function play(i){var s=SONGS[i];
+/* ---------- 재생기: YouTube IFrame API로 재생 · 멈춤 · 이전 · 다음 · 재생바 ---------- */
+var ICON_PLAY='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.2v13.6a1 1 0 0 0 1.5.86l10.4-6.8a1 1 0 0 0 0-1.72L9.5 4.34A1 1 0 0 0 8 5.2z"/></svg>',
+    ICON_PAUSE='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1.2"/><rect x="14" y="5" width="4" height="14" rx="1.2"/></svg>';
+var player=null,apiReady=false,pending=-1,cur=-1,dragging=false;
+window.onYouTubeIframeAPIReady=function(){apiReady=true;if(pending>=0){var p=pending;pending=-1;load(p)}};
+function loadApi(){if(loadApi.done)return;loadApi.done=1;var t=document.createElement("script");t.src="https://www.youtube.com/iframe_api";document.head.appendChild(t)}
+function load(i){
+  if(!apiReady){pending=i;loadApi();return}
+  if(!player){player=new YT.Player("yt",{videoId:SONGS[i].y,playerVars:{autoplay:1,rel:0,playsinline:1,controls:0,modestbranding:1,iv_load_policy:3},
+    events:{onReady:function(e){e.target.playVideo()},onStateChange:onState}})}
+  else player.loadVideoById(SONGS[i].y);
+}
+function setPlaying(b){$("bplay").innerHTML=b?ICON_PAUSE:ICON_PLAY;$("bplay").setAttribute("aria-label",b?"일시정지":"재생");$("disc").classList.toggle("spin",b)}
+function onState(e){if(e.data===1)setPlaying(true);else if(e.data===2||e.data===0||e.data===-1||e.data===5)setPlaying(false);
+  if(e.data===0)play(cur>=SONGS.length-1?0:cur+1)}
+function play(i){var s=SONGS[i];cur=i;
   [].forEach.call(list.children,function(li,j){li.classList.toggle("on",j===i)});
   $("npk").textContent="NOW PLAYING · "+String(i+1).padStart(2,"0")+" / 05";$("npt").textContent=full(s);$("npa").textContent=s.a;
-  $("npw").textContent=s.x;$("npw").hidden=false;$("nph").hidden=true;$("nprow").hidden=false;
-  $("yt").innerHTML='<iframe src="https://www.youtube.com/embed/'+s.y+'?autoplay=1&rel=0&playsinline=1" title="'+(full(s)+" — "+s.a).replace(/"/g,"")+'" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>';
-  $("npl").href="https://www.youtube.com/watch?v="+s.y;
-  $("disc").classList.add("spin");
+  $("npw").textContent=s.x;$("npw").hidden=false;$("nph").hidden=true;
+  $("npl").href="https://www.youtube.com/watch?v="+s.y;$("npl").hidden=false;
+  setSeek(0,0);load(i);setPlaying(true);
   if(body.classList.contains("v"))setTimeout(function(){$("sheet").scrollIntoView({behavior:"smooth",block:"center"})},50);
 }
-function stop(){$("yt").innerHTML="";$("disc").classList.remove("spin");[].forEach.call(list.children,function(li){li.classList.remove("on")});
-  $("npk").textContent="西門 Ximen · 5 TRACKS";$("npt").textContent="Select a track";$("npa").textContent="Chaeeun Lee";$("npw").hidden=true;$("nph").hidden=false;$("nprow").hidden=true}
+function stop(){if(player&&player.stopVideo)player.stopVideo();cur=-1;setPlaying(false);setSeek(0,0);[].forEach.call(list.children,function(li){li.classList.remove("on")});
+  $("npk").textContent="西門 Ximen · 5 TRACKS";$("npt").textContent="Select a track";$("npa").textContent="Chaeeun Lee";$("npw").hidden=true;$("nph").hidden=false;$("npl").hidden=true}
+function mmss(t){t=Math.max(0,Math.floor(t||0));return Math.floor(t/60)+":"+String(t%60).padStart(2,"0")}
+function setSeek(){}
+$("bplay").innerHTML=ICON_PLAY;
+$("bplay").addEventListener("click",function(){
+  if(cur<0||!player||!player.getPlayerState){play(cur<0?0:cur);return}
+  if(player.getPlayerState()===1)player.pauseVideo();else player.playVideo()});
+$("bprev").addEventListener("click",function(){
+  if(cur>=0&&player&&player.getCurrentTime&&player.getCurrentTime()>3){player.seekTo(0,true);return}
+  play(cur<=0?SONGS.length-1:cur-1)});
+$("bnext").addEventListener("click",function(){play(cur<0||cur>=SONGS.length-1?0:cur+1)});
 
 /* ---------- 열기 · 닫기 ---------- */
 var open=false;
