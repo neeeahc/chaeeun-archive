@@ -276,37 +276,37 @@ window.GALLERY = {
       "line": "플레이리스트의 흐름과, 곡이 내 인생에 남긴 자리를 본다.",
       "note": "첫 곡은 Madonna의 'Lucky Star', 마지막 곡은 인생의 엔딩곡이었으면 하는 ABBA의 'Dancing Queen'이다.",
       "archive": {
-        "itemsLabel": "플레이리스트",
+        "itemsLabel": "앨범 西門 XIMEN",
         "items": [
           {
-            "title": "Lucky Star",
-            "meta": "Madonna",
-            "text": "드라마 Euphoria에서 처음 듣고 반해 집을 나설 때마다 트는 곡입니다. 플레이리스트가 인트로 비트부터 강렬하게 시작되도록 첫 곡에 넣었습니다."
+            "title": "prism",
+            "meta": "m-flo",
+            "text": "내 앨범을 낸다면 어떤 곡을 담을지를 기준으로 골랐습니다. 이 곡은 앨범의 문을 여는 인트로로 두면 딱 좋을 것 같아 첫 곡으로 넣었습니다."
           },
           {
-            "title": "난 아직 사랑을 몰라",
-            "meta": "이지연",
-            "text": "이 곡의 무대 교차편집 영상을 보다가 이지연의 퍼포먼스에 반했습니다. 가사가 진보적인 데다 즐기며 부르는 게 느껴져서 꼭 넣고 싶었습니다."
+            "title": "Starry Night",
+            "meta": "Peggy Gou",
+            "text": "인트로가 문을 열면, 두 번째 곡에서는 리듬을 올려 앨범의 분위기를 본격적으로 띄우고 싶었습니다. 그래서 몸이 먼저 반응하는 이 곡을 바로 뒤에 두었습니다."
           },
           {
-            "title": "I'm Coming Out / Upside Down",
-            "meta": "Diana Ross",
-            "text": "단편영화 '유월'에서 주인공이 이 곡에 춤추는 장면이 인상 깊어 담았습니다. 춤추고 싶을 때 트는 리믹스라서 세 번째에 두면 분위기가 환기될 것 같았습니다."
+            "title": "nice",
+            "meta": "2hollis",
+            "text": "두 번째 곡에서 올린 분위기를 끊지 않고 이어가고 싶었습니다. 그래서 클럽에서 그대로 이어 틀 수 있는 이 곡을 세 번째에 두었습니다."
           },
           {
-            "title": "Take on Me",
-            "meta": "a-ha",
-            "text": "어릴 때 아빠가 들려주신 곡인데 만화와 현실이 공존하는 뮤직비디오도 혁신적입니다. 비트가 미래적이고 특이한 제 인생곡 중 하나라서 넣지 않을 수 없었습니다."
+            "title": "IYKYK",
+            "meta": "XG",
+            "text": "인트로와 분위기가 이어지면서도 앨범에서 가장 타이틀곡 같은 곡입니다. 그래서 앨범의 중심이 되는 네 번째 자리에 두었습니다."
           },
           {
-            "title": "Dancing Queen",
-            "meta": "ABBA",
-            "text": "아주 어릴 때부터 듣던 곡으로 가사가 희망적입니다. 제 인생의 엔딩곡이었으면 하는 마음으로 마지막 곡에 두었습니다."
+            "title": "NO PAIN (Fire-Toolz Remix)",
+            "meta": "Silica Gel",
+            "text": "앨범을 닫는 엔딩 같은 아웃트로 곡입니다. 인트로로 연 앨범을 이 곡으로 마무리하고 싶어 마지막 자리에 두었습니다."
           }
         ],
         "open": [
           {
-            "label": "10주 레코드 파티 열기",
+            "label": "앨범 西門 XIMEN 열기",
             "href": "작품/10주/파티/index.html"
           },
           {
@@ -316,8 +316,7 @@ window.GALLERY = {
         ],
         "embed": {
           "src": "작품/10주/파티/index.html?embed=1",
-          "noscroll": true,
-          "title": "10주 레코드 파티"
+          "title": "10주 앨범 西門 XIMEN"
         }
       }
     },
